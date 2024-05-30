@@ -1,4 +1,11 @@
+import { useContext } from "react"
+import { CartContext } from "../store/shopping-cart-context"
+
+
 export default function MealItem ({mealData}) {
+
+  const ctxCart = useContext(CartContext)
+
   return (
     <li className="meal-item">
         <article>
@@ -9,7 +16,7 @@ export default function MealItem ({mealData}) {
             {mealData.description}
           </p>
           <p className="meal-item-actions">
-            <button className="button">
+            <button className="button" onClick={()=>ctxCart.addItemToCart(mealData)}>
               Add to Cart
             </button>
           </p>

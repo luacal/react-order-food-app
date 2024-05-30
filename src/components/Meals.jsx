@@ -7,7 +7,7 @@ export default function Meals () {
   const [isFetching, setIsFetching] = useState(false);
   const [mealsData, setMealsData] = useState([]);
   const [error, setError] = useState('');
-  
+    
   
   useEffect(() => {
     setIsFetching(true);
@@ -17,7 +17,6 @@ export default function Meals () {
       try {
         const data = await fetchMeals();
         setMealsData(data);
-        console.log(data);
       } catch (error) {
         setError({message: error.message || 'can not fetch the data'})
       }
@@ -27,12 +26,10 @@ export default function Meals () {
   }, [])
 
   return (
-    <>
     <ul id="meals" >
       {mealsData.length > 0 && mealsData.map((mealData) => (
-        <MealItem key={mealData.id} mealData={mealData} />
+        <MealItem key={mealData.id} mealData={mealData}/>
       ))}      
     </ul>
-    </>
   )
 }
