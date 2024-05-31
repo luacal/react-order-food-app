@@ -12,6 +12,13 @@ function App() {
   });
   const dialog = useRef();
 
+  const ctxValue = {
+    items: shoppingCart.items,
+    addItemToCart: handleAddToCart,
+    updateItemQuantity: handleUpdateItemQuantity,
+  };
+
+
   function handleOpenCart() {
     dialog.current.open();
   }
@@ -43,17 +50,33 @@ function App() {
     });
   }
 
-  function handleAddToCart(item) {
+  function handleAddToCart(meal) {
+
+    const productIndex = shoppingCart.items.findIndex((item) => item.id === meal.id);
+
+      if (productIndex !== -1) {
+        // console.log('hasSameProduct', hasSameProduct);
+        console.log(meal);
+        console.log(meal.quantity);
+        console.log(meal.id);
+        console.log('here', shoppingCart.items[productIndex])
+          
+        ctxValue.updateItemQuantity(meal.id, shoppingCart.items[productIndex].quantity + 1);
+        return
+      }
+
+    
     setShoppingCart((prev) => {
       //to do: check if the cart already has the product and increment the quantity
+
       return {
         ...prev,
         items: [
           {
-            id: item.id,
+            id: meal.id,
             quantity: 1,
-            name: item.name,
-            price: item.price,
+            name: meal.name,
+            price: meal.price,
           },
           ...prev.items,
         ],
@@ -61,12 +84,7 @@ function App() {
     });
   }
 
-  const ctxValue = {
-    items: shoppingCart.items,
-    addItemToCart: handleAddToCart,
-    updateItemQuantity: handleUpdateItemQuantity,
-  };
-
+  
   return (
     <CartContext.Provider value={ctxValue}>
       <main>
