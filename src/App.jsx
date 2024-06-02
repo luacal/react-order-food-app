@@ -5,18 +5,27 @@ import Meals from "./components/Meals.jsx";
 import Cart from "./components/Cart.jsx";
 
 import CartContextProvider from "./store/shopping-cart-context.jsx";
+import CheckoutForm from './components/CheckoutForm.jsx';
 
 function App() {
-  const dialog = useRef();
+  const cartDialog = useRef();
+  const checkoutDialog = useRef();
   
   function handleOpenCart() {
-    dialog.current.open();
+    cartDialog.current.open();
+  }
+
+  function handleCheckoutOpen() {
+    console.log('checkout open');
+    cartDialog.current.close();
+    checkoutDialog.current.open();
   }
   
   return (
     <CartContextProvider>
       <main>
-        {createPortal(<Cart ref={dialog} />, document.getElementById("modal"))}
+        {createPortal(<Cart ref={cartDialog} onCheckoutOpen={handleCheckoutOpen} />, document.getElementById("modal"))}
+        {createPortal(<CheckoutForm ref={checkoutDialog} />, document.getElementById("modal"))}
         <Header onCartOpen={handleOpenCart} />
         <Meals />
       </main>

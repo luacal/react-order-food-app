@@ -1,9 +1,9 @@
 import { forwardRef, useImperativeHandle, useRef, useContext } from "react";
 import { CartContext } from "../store/shopping-cart-context.jsx";
 
-const Cart = forwardRef(function Cart(props, ref) {
+const Cart = forwardRef(function Cart({onCheckoutOpen}, ref) {
   const cartCtx = useContext(CartContext);
-  const dialog = useRef();
+  const cartDialog = useRef();
   let formattedTotalPrice = `$0,00`;
 
   if (cartCtx.items.length > 0) {
@@ -19,18 +19,20 @@ const Cart = forwardRef(function Cart(props, ref) {
     () => {
       return {
         open() {
-          dialog.current.showModal();
+          cartDialog.current.showModal();
         },
         close() {
-          dialog.current.close();
+          cartDialog.current.close();
         },
       };
     },
     []
   );
+
+  
   
   return (
-    <dialog className="modal" ref={dialog}>
+    <dialog className="modal" ref={cartDialog}>
       <div className="cart">
         <h2>Your Cart</h2>
         <ul>
@@ -66,11 +68,11 @@ const Cart = forwardRef(function Cart(props, ref) {
         <div className="modal-actions">
           <button
             className="text-button"
-            onClick={() => dialog.current.close()}
+            onClick={() => cartDialog.current.close()}
           >
             Close
           </button>
-          <button className="button">Go to checkout</button>
+          <button className="button" onClick={onCheckoutOpen}>Go to checkout</button>
         </div>
       </div>
     </dialog>

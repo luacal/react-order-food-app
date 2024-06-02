@@ -66,6 +66,7 @@ export default function CartContextProvider({ children }) {
     }
   );
 
+  // to do: remove this State
   const [shoppingCart, setShoppingCart] = useState({
     items: [],
   });
@@ -105,7 +106,7 @@ export default function CartContextProvider({ children }) {
       }});
       return;
     }
-    console.log('add')
+    
     shoppingCartDispatch({
       type: 'ADD_ITEM',
       payload: meal
