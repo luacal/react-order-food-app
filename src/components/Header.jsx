@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { CartContext } from '../store/shopping-cart-context';
+import Button from './UI/Button.jsx';
 import logoImage from '../assets/logo.jpg';
 
 
@@ -13,9 +14,10 @@ export default function Header({onCartOpen}) {
         <img src={logoImage} alt="Logo image" />
         <h1>REACT FOOD</h1>
       </div>
-      <button className="text-button" onClick={onCartOpen}>
+      
+      <Button onClick={onCartOpen} textOnly={true}>
         Cart ({(ctxCart.items) ? ctxCart.items.length : 0})
-      </button>
+      </Button>
     </header>
   );
 }
