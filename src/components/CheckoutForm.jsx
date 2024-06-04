@@ -1,5 +1,5 @@
 import { useContext, forwardRef, useImperativeHandle, useRef } from "react";
-import { CartContext } from "../store/shopping-cart-context";
+import CartContext from "../store/shopping-cart-context";
 // import formValidation from "../form-validation.js";
 import Button from "./UI/Button.jsx";
 

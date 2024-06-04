@@ -1,6 +1,6 @@
 import { createContext, useState, useReducer } from "react";
 
-export const CartContext = createContext({
+const CartContext = createContext({
   items: [],
   addItemToCart: () => {},
   updateItemQuantity: () => {},
@@ -58,7 +58,7 @@ function shoppingCartReducer(state, action) {
   return state;
 }
 
-export default function CartContextProvider({ children }) {
+export function CartContextProvider({ children }) {
   const [shoppingCartState, shoppingCartDispatch] = useReducer(
     shoppingCartReducer,
     {
@@ -118,3 +118,5 @@ export default function CartContextProvider({ children }) {
     <CartContext.Provider value={ctxValue}>{children}</CartContext.Provider>
   );
 }
+
+export default CartContext;

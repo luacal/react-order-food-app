@@ -6,7 +6,5 @@ export async function fetchMeals () {
   if (!response.ok) {
     throw new Error('can not fetch data');
   }
-  console.log(resData);
   return resData;
-
 }

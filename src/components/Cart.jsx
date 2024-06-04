@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef, useContext } from "react";
-import { CartContext } from "../store/shopping-cart-context.jsx";
+import CartContext from "../store/shopping-cart-context.jsx";
 import Button from "./UI/Button.jsx";
 
 const Cart = forwardRef(function Cart({onCheckoutOpen}, ref) {
