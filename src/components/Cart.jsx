@@ -1,10 +1,12 @@
-import { forwardRef, useImperativeHandle, useRef, useContext } from "react";
+import {useContext } from "react";
 import CartContext from "../store/shopping-cart-context.jsx";
+import UserProgressContext from "../store/UserProgressContext.jsx";
+import Modal from "./UI/Modal.jsx";
 import Button from "./UI/Button.jsx";
 
-const Cart = forwardRef(function Cart({onCheckoutOpen}, ref) {
+export default function Cart({onCheckoutOpen, onClose}) {
   const cartCtx = useContext(CartContext);
-  const cartDialog = useRef();
+  const userProgressCtx = useContext(UserProgressContext);
   let formattedTotalPrice = `$0,00`;
 
   if (cartCtx.items.length > 0) {
@@ -15,26 +17,13 @@ const Cart = forwardRef(function Cart({onCheckoutOpen}, ref) {
     formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
   }
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        open() {
-          cartDialog.current.showModal();
-        },
-        close() {
-          cartDialog.current.close();
-        },
-      };
-    },
-    []
-  );
-
-  
-  
+  function handleCloseCart () {
+    userProgressCtx.hideCart();
+  }
+ 
   return (
-    <dialog className="modal" ref={cartDialog}>
-      <div className="cart">
+      <Modal className="cart" open={userProgressCtx.progress === 'cart'}>
+
         <h2>Your Cart</h2>
         <ul>
           {cartCtx.items.length > 0 &&
@@ -67,16 +56,14 @@ const Cart = forwardRef(function Cart({onCheckoutOpen}, ref) {
           {formattedTotalPrice ? formattedTotalPrice : 0}
         </div>
         <div className="modal-actions">
-          <Button textOnly={true} onClick={() => cartDialog.current.close()}>
+          <Button textOnly={true} onClick={handleCloseCart}>
             Close
           </Button>
           <Button onClick={onCheckoutOpen}>
             Go to checkout
           </Button>
         </div>
-      </div>
-    </dialog>
+      </Modal>
   );
-});
+}
 
-export default Cart;
