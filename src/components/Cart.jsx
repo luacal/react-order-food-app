@@ -1,6 +1,7 @@
 import {useContext } from "react";
 import CartContext from "../store/shoppingCartContext.jsx";
 import UserProgressContext from "../store/UserProgressContext.jsx";
+import CartItem from './CartItem.jsx';
 import Modal from "./UI/Modal.jsx";
 import Button from "./UI/Button.jsx";
 
@@ -28,28 +29,7 @@ export default function Cart({onCheckoutOpen, onClose}) {
         <ul>
           {cartCtx.items.length > 0 &&
             cartCtx.items.map((item) => (
-              <li key={item.id} className="cart-item">
-                <p>
-                  {item.name} - {item.quantity}x ${item.price}
-                </p>
-                <div className="cart-item-actions">
-                  <button
-                    onClick={() =>
-                      cartCtx.updateItemQuantity(item.id, item.quantity - 1)
-                    }
-                  >
-                    -
-                  </button>
-                  {item.quantity}
-                  <button
-                    onClick={() =>
-                      cartCtx.updateItemQuantity(item.id, item.quantity + 1)
-                    }
-                  >
-                    +
-                  </button>
-                </div>
-              </li>
+              <CartItem key={item.id} item={item} />
             ))}
         </ul>
         <div className="cart-total">
