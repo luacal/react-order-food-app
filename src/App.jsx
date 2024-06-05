@@ -5,7 +5,7 @@ import Meals from "./components/Meals.jsx";
 import Cart from "./components/Cart.jsx";
 
 
-import {CartContextProvider} from "./store/shopping-cart-context.jsx";
+import {CartContextProvider} from "./store/shoppingCartContext.jsx";
 import {UserProgressContextProvider} from "./store/UserProgressContext.jsx";
 import CheckoutForm from './components/CheckoutForm.jsx';
 
