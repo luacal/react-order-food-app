@@ -1,12 +1,13 @@
-import { useContext, forwardRef, useImperativeHandle, useRef } from "react";
+import { useContext } from "react";
+import Modal from './UI/Modal.jsx';
 import CartContext from "../store/shoppingCartContext.jsx";
+import UserProgressContext from "../store/UserProgressContext.jsx";
 // import formValidation from "../form-validation.js";
 import Button from "./UI/Button.jsx";
 
-const CheckoutForm = forwardRef(function CheckoutForm(props, ref) {
+export default function CheckoutForm() {
   const cartCtx = useContext(CartContext);
-
-  const dialog = useRef();
+  const userProgressCtx = useContext(UserProgressContext);
 
   let formattedTotalPrice = `$0,00`;
 
@@ -17,21 +18,6 @@ const CheckoutForm = forwardRef(function CheckoutForm(props, ref) {
     );
     formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
   }
-
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        open() {
-          dialog.current.showModal();
-        },
-        close() {
-          dialog.current.close();
-        },
-      };
-    },
-    []
-  );
 
   function handleOrderSubmission (event) {
     e.preventDefault();
@@ -57,8 +43,12 @@ const CheckoutForm = forwardRef(function CheckoutForm(props, ref) {
 
   }
 
+  function handleCheckoutClose () {
+    userProgressCtx.hideCheckout();
+  }
+  
   return (
-    <dialog className="modal" ref={dialog}>
+      <Modal className="checkout" open={userProgressCtx.progress === 'checkout'}>
       <h2>Checkout</h2>
       <p>Total Amount: {formattedTotalPrice}</p>
       <form onSubmit={(event)=>handleOrderSubmission(event)}>
@@ -85,12 +75,10 @@ const CheckoutForm = forwardRef(function CheckoutForm(props, ref) {
           </div>
         </div>
         <div className="modal-actions">
-          <Button textOnly={true} onClick={() => dialog.current.close()}>Close</Button>
+          <Button textOnly={true} onClick={handleCheckoutClose}>Close</Button>
           <Button>Submit Order</Button>
         </div>
       </form>
-    </dialog>
+      </Modal>
   );
-});
-
-export default CheckoutForm;
+};

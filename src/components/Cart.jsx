@@ -5,7 +5,7 @@ import CartItem from './CartItem.jsx';
 import Modal from "./UI/Modal.jsx";
 import Button from "./UI/Button.jsx";
 
-export default function Cart({onCheckoutOpen, onClose}) {
+export default function Cart() {
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
   let formattedTotalPrice = `$0,00`;
@@ -20,6 +20,10 @@ export default function Cart({onCheckoutOpen, onClose}) {
 
   function handleCloseCart () {
     userProgressCtx.hideCart();
+  }
+
+  function handleCheckoutOpen () {
+    userProgressCtx.showCheckout();
   }
  
   return (
@@ -40,7 +44,7 @@ export default function Cart({onCheckoutOpen, onClose}) {
             Close
           </Button>
           {cartCtx.items.length > 0 && 
-          <Button onClick={onCheckoutOpen}>
+          <Button onClick={handleCheckoutOpen}>
             Go to checkout
           </Button>}          
         </div>
