@@ -47,7 +47,7 @@ export default function CheckoutForm() {
   }
 
   return (
-    <Modal className="checkout" open={userProgressCtx.progress === "checkout"}>
+    <Modal className="checkout" open={userProgressCtx.progress === "checkout"} onClose={handleCheckoutClose}>
 
       <form onSubmit={(event) => handleOrderSubmission(event)}>
 
@@ -57,7 +57,7 @@ export default function CheckoutForm() {
         <Input label="Full Name" id="full-name" type="text"></Input>
         <Input label="E-mail Address" id="email" type="email"></Input>
         <Input label="Street" id="street" type="text"></Input>
-        
+
         <div className="control-row">
           <Input label="Postal Code" id="postal-code" type="text"></Input>
           <Input label="City" id="city" type="text"></Input>
