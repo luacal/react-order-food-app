@@ -20,30 +20,44 @@ export default function CheckoutForm() {
     formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
   }
 
+  function handleCheckoutClose(event) {
+    event.preventDefault();
+    userProgressCtx.hideCheckout();
+  }
+
   function handleOrderSubmission(event) {
-    e.preventDefault();
+    event.preventDefault();
 
     const fd = new FormData(event.target);
-    const enteredFullName = fd.get("full-name");
-    const enteredEmail = fd.get("email");
-    const enteredStreet = fd.get("street");
-    const enteredPostalCode = fd.get("postal-code");
-    const enteredCity = fd.get("city");
+    // const enteredFullName = fd.get("full-name");
+    // const enteredEmail = fd.get("email");
+    // const enteredStreet = fd.get("street");
+    // const enteredPostalCode = fd.get("postal-code");
+    // const enteredCity = fd.get("city");
 
     //or: const data = Object.fromEntries(fd.entries()); -> a data object containing all values
 
-    console.log("fd", fd);
+    const customerData = Object.fromEntries(fd.entries())
+
+    fetch('http://localhost:3000/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order: {
+          items: cartCtx.items,
+          customer: customerData
+        }
+      })
+    })
+
     // validate
-    const value = "aaaa";
+    
     // console.log('formValidation', formValidation)
     // console.log(formValidation.isNotEmpty(value));
 
     // send the POST to the API
-  }
-
-  function handleCheckoutClose(event) {
-    event.preventDefault();
-    userProgressCtx.hideCheckout();
   }
 
   return (
@@ -54,7 +68,7 @@ export default function CheckoutForm() {
         <h2>Checkout</h2>
         <p>Total Amount: {formattedTotalPrice}</p>
 
-        <Input label="Full Name" id="full-name" type="text"></Input>
+        <Input label="Full Name" id="name" type="text"></Input>
         <Input label="E-mail Address" id="email" type="email"></Input>
         <Input label="Street" id="street" type="text"></Input>
 
