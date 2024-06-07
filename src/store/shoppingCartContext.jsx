@@ -4,6 +4,7 @@ const CartContext = createContext({
   items: [],
   addItemToCart: () => {},
   updateItemQuantity: () => {},
+  clearCart: () => {}
 });
 
 function shoppingCartReducer(state, action) {
@@ -54,6 +55,10 @@ function shoppingCartReducer(state, action) {
       };
   }
 
+  if (action.type === 'CLEAR_CART') {
+    return {...state, items:[]}
+  }
+
 
   return state;
 }
@@ -66,15 +71,11 @@ export function CartContextProvider({ children }) {
     }
   );
 
-  // to do: remove this State
-  const [shoppingCart, setShoppingCart] = useState({
-    items: [],
-  });
-
   const ctxValue = {
     items: shoppingCartState.items,
     addItemToCart: handleAddToCart,
     updateItemQuantity: handleUpdateItemQuantity,
+    clearCart
   };
 
   function handleUpdateItemQuantity(mealId, amount) {
@@ -86,6 +87,10 @@ export function CartContextProvider({ children }) {
         amount: amount
     }});
 
+ }
+
+ function clearCart() {
+  shoppingCartDispatch({type: 'CLEAR_CART'});
  }
 
   function handleAddToCart(meal) {
